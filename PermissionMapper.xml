@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.qi.mapper.PermissionMapper">
+	<select id="findMenusByUserId" resultType="cn.qi.vo.Permission">
+		select * from t_permission where type = 'menu' and id in (
+			select permissionId from t_role_permission where roleId in (
+				select roleId from t_user_role where userId = #{userId}
+			)
+		)
+	</select>
+	<select id="findButtonsByUserId" resultType="cn.qi.vo.Permission">
+		select * from t_permission where type = 'button' and id in (
+			select permissionId from t_role_permission where roleId in (
+				select roleId from t_user_role where userId = #{userId}
+			)
+		)
+	</select>
+</mapper>
